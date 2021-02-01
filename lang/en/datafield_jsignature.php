@@ -25,3 +25,4 @@
  */
 
 $string['pluginname'] = 'JSignature';
+$string['fieldtypelabel'] = 'jSignature';

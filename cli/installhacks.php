@@ -16,8 +16,8 @@
 
 /**
  * @package    datafield
- * @subpackage tag
- * @copyright  2015 onwards Andrew Hancox (andrewdchancox@googlemail.com)
+ * @subpackage jSignature
+ * @copyright  2021 onwards Andrei Bautu (abautu) {@link https://www.linkedin.com/in/andreibautu/}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -28,7 +28,7 @@ require_once($CFG->libdir.'/clilib.php');
 
 $targettextfile = $CFG->dirroot . '/mod/data/lang/en/data.php';
 $targetcontents = file_get_contents($targettextfile);
-$sourcetextfile = $CFG->dirroot . '/mod/data/field/tag/cli/resources/lang_en_data.php';
+$sourcetextfile = $CFG->dirroot . '/mod/data/field/jsignature/cli/resources/lang_en_data.php';
 $sourcecontents = file_get_contents($sourcetextfile);
 if (!strpos($targetcontents, $sourcecontents)) {
     $file = fopen($targettextfile, "w");
@@ -37,3 +37,4 @@ if (!strpos($targetcontents, $sourcecontents)) {
 } else {
     fwrite(STDERR, "Language string already exists\n");
 }
+copy($CFG->dirroot . '/mod/data/field/jsignature/pix/jsignature.gif', $CFG->dirroot . '/mod/data/pix/field/jsignature.gif');
