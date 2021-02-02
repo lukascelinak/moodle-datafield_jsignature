@@ -24,11 +24,9 @@
 require_once(dirname(__FILE__) . '/../../../../config.php');
 require_once(dirname(__FILE__) . '/classes/jSignature_Tools_Base30.php');
 require_once(dirname(__FILE__) . '/classes/jSignature_Tools_SVG.php');
+
 $data = required_param('data', PARAM_ALPHANUMEXT);
-$signatureParser = new jSignature_Tools_Base30();
-$svgGenerator = new jSignature_Tools_SVG();
 error_reporting(E_ERROR);
-$svg = $svgGenerator->NativeToSVG($signatureParser->Base64ToNative($data));
 header('Content-type: image/svg+xml');
 header('Cache-Control:public, max-age=31536000');
-echo $svg;
+echo data_field_jsignature::get_svg_image($data);

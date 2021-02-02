@@ -65,6 +65,31 @@ class data_field_jsignature extends data_field_base {
     }
 
     /**
+     * Returns a SVG image created from the a jSignature base30 encoded data.
+     *
+     * @param $data jSignature base30 data
+     * @return string
+     */
+    public static function get_svg_image($data) {
+        require_once(dirname(__FILE__) . '/classes/jSignature_Tools_Base30.php');
+        require_once(dirname(__FILE__) . '/classes/jSignature_Tools_SVG.php');
+        $signatureParser = new jSignature_Tools_Base30();
+        $svgGenerator = new jSignature_Tools_SVG();
+        $svg = $svgGenerator->NativeToSVG($signatureParser->Base64ToNative($data));
+        return $svg;
+    }
+
+    public static function get_raster_image($data, $format = 'png8') {
+        $svg = self::get_svg_image($data);
+        $img = new Imagick();
+        $img->readImageBlob($svg);
+        $img->setImageFormat($format);
+        $img->paintTransparentImage("rgb(255,255,255)", 0, 0);
+        $img->trimImage(0);
+        return $img->getImageBlob();
+    }
+
+    /**
      * Display the content of the field in browse mode
      *
      * @global object
