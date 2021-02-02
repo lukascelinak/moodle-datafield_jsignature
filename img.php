@@ -22,6 +22,8 @@
  */
 
 require_once(dirname(__FILE__) . '/../../../../config.php');
+require_once(dirname(__FILE__) . '/../../lib.php');
+require_once(dirname(__FILE__) . '/field.class.php');
 require_once(dirname(__FILE__) . '/classes/jSignature_Tools_Base30.php');
 require_once(dirname(__FILE__) . '/classes/jSignature_Tools_SVG.php');
 
