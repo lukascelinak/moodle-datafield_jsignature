@@ -24,7 +24,47 @@
 
 class data_field_jsignature extends data_field_base {
 
+    /** @var string name of this plugin */
     var $type = 'jsignature';
+
+    /**
+     * Generates the image URL of a signature
+     */
+    public static function get_image_url($data) {
+        global $CFG;
+        return $CFG->wwwroot . '/mod/data/field/jsignature/img.php?data=' . $data;
+    }
+
+    /**
+     * Returns a SVG image created from the a jSignature base30 encoded data.
+     *
+     * @param $data jSignature base30 data
+     * @return string
+     */
+    public static function get_svg_image($data) {
+        require_once(__DIR__ . '/classes/jSignature_Tools_Base30.php');
+        require_once(__DIR__ . '/classes/jSignature_Tools_SVG.php');
+        $signatureParser = new jSignature_Tools_Base30();
+        $svgGenerator = new jSignature_Tools_SVG();
+        $svg = $svgGenerator->NativeToSVG($signatureParser->Base64ToNative($data));
+        return $svg;
+    }
+
+    /**
+     * Returns a raster (JPEG, PNG, BMP, etc) image created from the a jSignature base30 encoded data.
+     *
+     * @param $data jSignature base30 data
+     * @return string
+     */
+    public static function get_raster_image($data, $format = 'png8') {
+        $svg = self::get_svg_image($data);
+        $img = new Imagick();
+        $img->readImageBlob($svg);
+        $img->setImageFormat($format);
+        $img->paintTransparentImage("rgb(255,255,255)", 0, 0);
+        $img->trimImage(0);
+        return $img->getImageBlob();
+    }
 
     /**
      * This field just sets up a default field object
@@ -37,6 +77,7 @@ class data_field_jsignature extends data_field_base {
         $this->field->param2 = '#FFFFFF';
         return true;
     }
+
     /**
      * Print the relevant form element in the ADD template for this field
      *
@@ -52,44 +93,8 @@ class data_field_jsignature extends data_field_base {
             $this->field->param1,
             $this->field->param2,
         ));
-        $str = parent::display_add_field($recordid, $formdata);
-        return $str;
+        return parent::display_add_field($recordid, $formdata);
     }
-
-    /**
-     * Generates the image URL of a signature
-     */
-    function get_image_url($data) {
-        global $CFG;
-        return $CFG->wwwroot . '/mod/data/field/jsignature/img.php?data=' . $data;
-    }
-
-    /**
-     * Returns a SVG image created from the a jSignature base30 encoded data.
-     *
-     * @param $data jSignature base30 data
-     * @return string
-     */
-    public static function get_svg_image($data) {
-        require_once(dirname(__FILE__) . '/classes/jSignature_Tools_Base30.php');
-        require_once(dirname(__FILE__) . '/classes/jSignature_Tools_SVG.php');
-        $signatureParser = new jSignature_Tools_Base30();
-        $svgGenerator = new jSignature_Tools_SVG();
-        $svg = $svgGenerator->NativeToSVG($signatureParser->Base64ToNative($data));
-        return $svg;
-    }
-
-    public static function get_raster_image($data, $format = 'png8') {
-        $svg = self::get_svg_image($data);
-        $img = new Imagick();
-        $img->readImageBlob($svg);
-        $img->setImageFormat($format);
-        $img->paintTransparentImage("rgb(255,255,255)", 0, 0);
-        $img->trimImage(0);
-        return $img->getImageBlob();
-    }
-
-
 
     /**
      * Display the content of the field in browse mode
@@ -106,10 +111,16 @@ class data_field_jsignature extends data_field_base {
         if (empty($content->content)) {
             return false;
         }
-        $str = $this->get_image_url($content->content);
+        $str = self::get_image_url($content->content);
         return "<img class=\"jsignaturefield_img\" src=\"$str\">";
     }
 
+    /**
+     * Renders the HTML code of the searching form this field.
+     *
+     * @param string $value current value
+     * @return string
+     */
     function display_search_field($value = '') {
         return '<label class="accesshide" for="f_' . $this->field->id . '">'. $this->field->name.'</label>' .
             '<select id="f_'.$this->field->id.'" name="f_'.$this->field->id.'">' .
@@ -119,10 +130,20 @@ class data_field_jsignature extends data_field_base {
             '</select>';
     }
 
+    /**
+     * Parse query string parameters into search filters
+     *
+     * @return string
+     */
     function parse_search_field() {
         return optional_param('f_'.$this->field->id, '', PARAM_BOOL);
     }
 
+    /**
+     * Generates the SQL conditions related to searching in this field.
+     * @param $tablealias
+     * @param $value
+     */
     function generate_sql($tablealias, $value) {
         global $DB;
 
@@ -147,7 +168,7 @@ class data_field_jsignature extends data_field_base {
      */
     function export_text_value($record) {
         if ($this->text_export_supported()) {
-            return $this->get_image_url($record->content);
+            return self::get_image_url($record->content);
         }
     }
 
