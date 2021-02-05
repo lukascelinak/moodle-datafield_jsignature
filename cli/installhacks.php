@@ -24,17 +24,5 @@
 define('CLI_SCRIPT', true);
 
 require(__DIR__.'/../../../../../config.php');
-require_once($CFG->libdir.'/clilib.php');
 
-$targettextfile = $CFG->dirroot . '/mod/data/lang/en/data.php';
-$targetcontents = file_get_contents($targettextfile);
-$sourcetextfile = $CFG->dirroot . '/mod/data/field/jsignature/cli/resources/lang_en_data.php';
-$sourcecontents = file_get_contents($sourcetextfile);
-if (!strpos($targetcontents, $sourcecontents)) {
-    $file = fopen($targettextfile, "w");
-    fwrite($file, $targetcontents . $sourcecontents);
-    fclose($file);
-} else {
-    fwrite(STDERR, "Language string already exists\n");
-}
-copy($CFG->dirroot . '/mod/data/field/jsignature/pix/jsignature.gif', $CFG->dirroot . '/mod/data/pix/field/jsignature.gif');
+link($CFG->dirroot . '/mod/data/field/jsignature/pix/jsignature.gif', $CFG->dirroot . '/mod/data/pix/field/jsignature.gif');

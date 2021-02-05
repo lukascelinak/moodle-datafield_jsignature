@@ -89,6 +89,8 @@ class data_field_jsignature extends data_field_base {
         return $img->getImageBlob();
     }
 
+
+
     /**
      * Display the content of the field in browse mode
      *
@@ -147,6 +149,15 @@ class data_field_jsignature extends data_field_base {
         if ($this->text_export_supported()) {
             return $this->get_image_url($record->content);
         }
+    }
+
+    /**
+     * Returns the name/type of the field
+     *
+     * @return string
+     */
+    function name() {
+        return get_string('fieldtypelabel', "datafield_jsignature");
     }
 }
 
