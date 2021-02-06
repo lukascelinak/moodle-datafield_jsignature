@@ -21,14 +21,11 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(dirname(__FILE__) . '/../../../../config.php');
-require_once(dirname(__FILE__) . '/../../lib.php');
-require_once(dirname(__FILE__) . '/field.class.php');
-require_once(dirname(__FILE__) . '/classes/jSignature_Tools_Base30.php');
-require_once(dirname(__FILE__) . '/classes/jSignature_Tools_SVG.php');
+require_once(__DIR__ . '/../../../../config.php');
+require_once(__DIR__ . '/../../lib.php');
+require_once(__DIR__ . '/field.class.php');
 
 $data = required_param('data', PARAM_ALPHANUMEXT);
-error_reporting(E_ERROR);
-header('Content-type: image/svg+xml');
-header('Cache-Control:public, max-age=31536000');
-echo data_field_jsignature::get_svg_image($data);
+$signature = required_param('s', PARAM_ALPHANUM);
+
+data_field_jsignature::download_image($data, $signature);
