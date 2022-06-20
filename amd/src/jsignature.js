@@ -1,9 +1,9 @@
-define(['jquery', 'datafield_jsignature/jquery.jsignature'], function ($) {
+define(['jquery', 'mod_printit/jqueryjsignature'], function ($) {
     return {
         init: function (field_id, color, backgroundColor) {
             let signatureInput = $("#" + field_id).attr('style','display:none !important');
             let defaultSignature = signatureInput.val()
-            let signatureWidget = $('<div class="jsignaturefield_editor" id="jsignature' + field_id + '">')
+            let signatureWidget = $('<div class="jsignaturefield_editor printit-jsignature-editor" id="jsignature' + field_id + '">')
                 .insertAfter(signatureInput)
                 .jSignature({
                     'background-color': backgroundColor,

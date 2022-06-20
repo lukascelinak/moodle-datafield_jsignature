@@ -1,5 +1,5 @@
 /*
- * This file is a small AMD stub around the jSignature js files (jSignature.js, 
+ * This file is a small AMD stub around the jSignature js files (jSignature.js,
  * jSignature.CompressorBase30.js, jSignature.CompressorSVG.js, and jSignature.UndoButton.js).
  */
 
@@ -780,7 +780,7 @@ function jSignatureClass(parent, options, instanceExtensions) {
 	this.$controlbarLower = (function(){
 		var controlbarstyle = 'padding:0 !important; margin:0 !important;'+
 			'width: 100% !important; height: 0 !important; -ms-touch-action: none; touch-action: none;'+
-			'margin-top:-1.5em !important; margin-bottom:1.5em !important; position: relative;';
+			'margin-top:1em !important; margin-bottom:1.5em !important; position: relative;';
 		return $('<div style="'+controlbarstyle+'"></div>').prependTo($parent);
 	})();
 
@@ -1019,7 +1019,7 @@ jSignatureClass.prototype.resetCanvas = function(data, dontClear){
 			ctx.shadowBlur = 0;
 		}
 	}
-	
+
 	ctx.strokeStyle = settings.color;
 
 	// setting up new dataEngine
@@ -1504,23 +1504,23 @@ MIT License <http://www.opensource.org/licenses/mit-license.php>
 
 ;(function(){
 
-	var chunkSeparator = '_' 
+	var chunkSeparator = '_'
 	, charmap = {} // {'1':'g','2':'h','3':'i','4':'j','5':'k','6':'l','7':'m','8':'n','9':'o','a':'p','b':'q','c':'r','d':'s','e':'t','f':'u','0':'v'}
 	, charmap_reverse = {} // will be filled by 'uncompress*" function
 	// need to split below for IE7 (possibly others), which does not understand string[position] it seems (returns undefined)
-	, allchars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWX'.split('') 
+	, allchars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWX'.split('')
 	, bitness = allchars.length / 2
 	, minus = 'Z'
 	, plus = 'Y'
-	
+
 	for(var i = bitness-1; i > -1; i--){
 		charmap[allchars[i]] = allchars[i+bitness]
 		charmap_reverse[allchars[i+bitness]] = allchars[i]
-	} 
+	}
 	var remapTailChars = function(number){
 		// for any given number as string, returning string with trailing chars remapped something like so:
 		// '345' -> '3de'
-		var chars = number.split('') 
+		var chars = number.split('')
 		, l = chars.length
 		// we are skipping first char. standard hex number char = delimiter
 		for (var i = 1; i < l; i++ ){
@@ -1545,14 +1545,14 @@ MIT License <http://www.opensource.org/licenses/mit-license.php>
 		, lastpolarity = 1
 		, l = data.length
 		, nwhole, n, absn
-		
+
 		for(var i = 0; i < l; i++){
 			// we start with whole coordinates for each point
 			// coords are converted into series of vectors:
 			// [512, 514, 520]
 			// [512, +2, +6]
 			nwhole = Math.round(data[i])
-			n = nwhole - lastwhole			
+			n = nwhole - lastwhole
 			lastwhole = nwhole
 
 			// inserting sign change when needed.
@@ -1564,7 +1564,7 @@ MIT License <http://www.opensource.org/licenses/mit-license.php>
 				lastpolarity = 1
 				answer.push(plus)
 			}
-			
+
 			// since we have dealt with sign. let's absolute the value.
 			absn = Math.abs(n)
 			// adding number to list  We convert these to Hex before storing on the string.
@@ -1588,7 +1588,7 @@ MIT License <http://www.opensource.org/licenses/mit-license.php>
 		//   resurrected number is the diff between this point and prior coord.
 		// - running polaritiy is attached to the number.
 		// - we undiff (signed number + prior coord) the number.
-		// - if char 'm','p', flip running polarity 
+		// - if char 'm','p', flip running polarity
 		var answer = []
 		, chars = datastring.split('')
 		, l = chars.length
@@ -1601,11 +1601,11 @@ MIT License <http://www.opensource.org/licenses/mit-license.php>
 			ch = chars[i]
 			if (ch in charmap || ch === minus || ch === plus){
 				// this is new number - start of a new whole number.
-				// before we can deal with it, we need to flush out what we already 
+				// before we can deal with it, we need to flush out what we already
 				// parsed out from string, but keep in limbo, waiting for this sign
 				// that prior number is done.
 				// we deal with 3 numbers here:
-				// 1. start of this number - a diff from previous number to 
+				// 1. start of this number - a diff from previous number to
 				//    whole, new number, which we cannot do anything with cause
 				//    we don't know its ending yet.
 				// 2. number that we now realize have just finished parsing = prewhole
@@ -1626,7 +1626,7 @@ MIT License <http://www.opensource.org/licenses/mit-license.php>
 					partial = []
 				} else {
 					// now, let's start collecting parts for the new number:
-					partial = [ch]					
+					partial = [ch]
 				}
 			} else /* alphas replacing digits */ {
 				// more parts for the new number
@@ -1636,7 +1636,7 @@ MIT License <http://www.opensource.org/licenses/mit-license.php>
 		// we always will have something stuck in partial
 		// because we don't have closing delimiter
 		answer.push( parseInt( partial.join(''), bitness ) * polarity + preprewhole )
-		
+
 		return answer
 	}
 	, compressstrokes = function(data){
@@ -1644,7 +1644,7 @@ MIT License <http://www.opensource.org/licenses/mit-license.php>
 		, l = data.length
 		, stroke
 		for(var i = 0; i < l; i++){
-			stroke = data[i] 
+			stroke = data[i]
 			answer.push(compressstrokeleg(stroke.x))
 			answer.push(compressstrokeleg(stroke.y))
 		}
@@ -1718,9 +1718,9 @@ MIT License <http://www.opensource.org/licenses/mit-license.php>
 
 ;(function(){
 	'use strict'
-		
+
 /** @preserve
-Simplify.js BSD 
+Simplify.js BSD
 (c) 2012, Vladimir Agafonkin
 mourner.github.com/simplify-js
 
@@ -1741,7 +1741,7 @@ mourner.github.com/simplify-js
 		this.x = x
 		this.y = y
 		this.reverse = function(){
-			return new this.constructor( 
+			return new this.constructor(
 				this.x * -1
 				, this.y * -1
 			)
@@ -1753,7 +1753,7 @@ mourner.github.com/simplify-js
 			}
 			return this._length
 		}
-		
+
 		var polarity = function (e){
 			return Math.round(e / Math.abs(e))
 		}
@@ -1777,12 +1777,12 @@ mourner.github.com/simplify-js
 			}
 			return this
 		}
-		
+
 		/**
 		 * Calculates the angle between 'this' vector and another.
 		 * @public
 		 * @function
-		 * @returns {Number} The angle between the two vectors as measured in PI. 
+		 * @returns {Number} The angle between the two vectors as measured in PI.
 		 */
 		this.angleTo = function(vectorB) {
 			var divisor = this.getLength() * vectorB.getLength()
@@ -1793,8 +1793,8 @@ mourner.github.com/simplify-js
 				// because of it, the core of the formula can, on occasion, have values
 				// over 1.0 and below -1.0.
 				return Math.acos(
-					Math.min( 
-						Math.max( 
+					Math.min(
+						Math.max(
 							( this.x * vectorB.x + this.y * vectorB.y ) / divisor
 							, -1.0
 						)
@@ -1808,7 +1808,7 @@ mourner.github.com/simplify-js
 	function Point(x,y){
 		this.x = x
 		this.y = y
-		
+
 		this.getVectorToCoordinates = function (x, y) {
 			return new Vector(x - this.x, y - this.y)
 		}
@@ -1841,12 +1841,12 @@ mourner.github.com/simplify-js
 	}
 
 	//	/**
-	//	 * This is a simple, points-to-lines (not curves) renderer. 
+	//	 * This is a simple, points-to-lines (not curves) renderer.
 	//	 * Keeping it around so we can activate it from time to time and see
 	//	 * if smoothing logic is off much.
 	//	 * @public
 	//	 * @function
-	//	 * @returns {String} Like so "l 1 2 3 5' with stroke as long line chain. 
+	//	 * @returns {String} Like so "l 1 2 3 5' with stroke as long line chain.
 	//	 */
 	//	function compressstroke(stroke, shiftx, shifty){
 	//		// we combine strokes data into string like this:
@@ -1857,7 +1857,7 @@ mourner.github.com/simplify-js
 	//		, i
 	//		, l = stroke.x.length
 	//		, answer = ['M', lastx - shiftx, lasty - shifty, 'l']
-	//		
+	//
 	//		if (l === 1){
 	//			// meaning this was just a DOT, not a stroke.
 	//			// instead of creating a circle, we just create a short line
@@ -1870,7 +1870,7 @@ mourner.github.com/simplify-js
 	//			}
 	//		}
 	//		return answer.join(' ')
-	//	} 
+	//	}
 
 	function segmentToCurve(stroke, positionInStroke, lineCurveThreshold){
 		'use strict'
@@ -1880,12 +1880,12 @@ mourner.github.com/simplify-js
 		// To approximate a very nice curve we need to know the direction of line before and after.
 		// Hence, on long lines we actually wait for another point beyond it to come back from
 		// mousemoved before we draw this curve.
-		
-		// So for "prior curve" to be calc'ed we need 4 points 
+
+		// So for "prior curve" to be calc'ed we need 4 points
 		// 	A, B, C, D (we are on D now, A is 3 points in the past.)
 		// and 3 lines:
-		//  pre-line (from points A to B), 
-		//  this line (from points B to C), (we call it "this" because if it was not yet, it's the only one we can draw for sure.) 
+		//  pre-line (from points A to B),
+		//  this line (from points B to C), (we call it "this" because if it was not yet, it's the only one we can draw for sure.)
 		//  post-line (from points C to D) (even through D point is 'current' we don't know how we can draw it yet)
 		//
 		// Well, actually, we don't need to *know* the point A, just the vector A->B
@@ -1894,12 +1894,12 @@ mourner.github.com/simplify-js
 		// Thus, since we can only draw a line if we know one point ahead of it, we need to shift our focus one point ahead.
 		positionInStroke += 1
 		// Let's hope the code that calls us knows we do that and does not call us with positionInStroke = index of last point.
-		
+
 		var Cpoint = new Point(stroke.x[positionInStroke-1], stroke.y[positionInStroke-1])
 			, Dpoint = new Point(stroke.x[positionInStroke], stroke.y[positionInStroke])
 			, CDvector = Cpoint.getVectorToPoint(Dpoint)
 		// Again, we have a chance here to draw only PREVIOUS line segment - BC
-		
+
 		// So, let's start with BC curve.
 		// if there is only 2 points in stroke array (C, D), we don't have "history" long enough to have point B, let alone point A.
 		// so positionInStroke should start with 2, ie
@@ -1908,7 +1908,7 @@ mourner.github.com/simplify-js
 		, BCvector = Bpoint.getVectorToPoint(Cpoint)
 		, ABvector
 		, rounding = 2
-		
+
 		if ( BCvector.getLength() > lineCurveThreshold ){
 			// Yey! Pretty curves, here we come!
 			if(positionInStroke > 2) {
@@ -1927,7 +1927,7 @@ mourner.github.com/simplify-js
 				Math.max(minlenfraction, BCDangle) * maxlen
 			)
 			, BtoCP2vector = new Vector(BCvector.x + CtoCP2vector.x, BCvector.y + CtoCP2vector.y)
-			
+
 			// returing curve for BC segment
 			// all coords are vectors against Bpoint
 			return [
@@ -1951,27 +1951,27 @@ mourner.github.com/simplify-js
 	function lastSegmentToCurve(stroke, lineCurveThreshold){
 		'use strict'
 		// Here we tidy up things left unfinished
-		
+
 		// What's left unfinished there is the curve between the last points
 		// in the stroke
-		// We can also be called when there is only one point in the stroke (meaning, the 
+		// We can also be called when there is only one point in the stroke (meaning, the
 		// stroke was just a dot), in which case there is nothing for us to do.
 
-		// So for "this curve" to be calc'ed we need 3 points 
+		// So for "this curve" to be calc'ed we need 3 points
 		// 	A, B, C
 		// and 2 lines:
-		//  pre-line (from points A to B), 
-		//  this line (from points B to C) 
+		//  pre-line (from points A to B),
+		//  this line (from points B to C)
 		// Well, actually, we don't need to *know* the point A, just the vector A->B
 		// so, we really need points B, C and AB vector.
 		var positionInStroke = stroke.x.length - 1
-		
+
 		// there must be at least 2 points in the stroke.for us to work. Hope calling code checks for that.
 		var Cpoint = new Point(stroke.x[positionInStroke], stroke.y[positionInStroke])
 		, Bpoint = new Point(stroke.x[positionInStroke-1], stroke.y[positionInStroke-1])
 		, BCvector = Bpoint.getVectorToPoint(Cpoint)
 		, rounding = 2
-		
+
 		if (positionInStroke > 1 && BCvector.getLength() > lineCurveThreshold){
 			// we have at least 3 elems in stroke
 			var ABvector = (new Point(stroke.x[positionInStroke-2], stroke.y[positionInStroke-2])).getVectorToPoint(Bpoint)
@@ -1981,7 +1981,7 @@ mourner.github.com/simplify-js
 			, BtoCP1vector = new Vector(ABvector.x + BCvector.x, ABvector.y + BCvector.y).resizeTo(
 				Math.max(minlenfraction, ABCangle) * maxlen
 			)
-			
+
 			return [
 				'c' // bezier curve
 				, round( BtoCP1vector.x, rounding )
@@ -2011,11 +2011,11 @@ mourner.github.com/simplify-js
 			, round( (stroke.x[0] - shiftx), 2)
 			, round( (stroke.y[0] - shifty), 2)
 		]
-		// processing all points but first and last. 
+		// processing all points but first and last.
 		, i = 1 // index zero item in there is STARTING point. we already extracted it.
 		, l = stroke.x.length - 1 // this is a trick. We are leaving last point coordinates for separate processing.
 		, lineCurveThreshold = 1
-		
+
 		for(; i < l; i++){
 			lines.push.apply(lines, segmentToCurve(stroke, i, lineCurveThreshold))
 		}
@@ -2032,7 +2032,7 @@ mourner.github.com/simplify-js
 		var d = []
 		, newstroke = {'x':[], 'y':[]}
 		, i, l
-		
+
 		for (i = 0, l = stroke.x.length; i < l; i++){
 			d.push({'x':stroke.x[i], 'y':stroke.y[i]})
 		}
@@ -2040,7 +2040,7 @@ mourner.github.com/simplify-js
 		for (i = 0, l = d.length; i < l; i++){
 			newstroke.x.push(d[i].x)
 			newstroke.y.push(d[i].y)
-		}		
+		}
 		return newstroke
 	}
 
@@ -2080,7 +2080,7 @@ mourner.github.com/simplify-js
 		, shifty = 0
 		, minx, maxx, miny, maxy, padding = 1
 		, simplifieddata = []
-		
+
 		if(l !== 0){
 			for(i = 0; i < l; i++){
 				stroke = simplifystroke( data[i] )
@@ -2088,7 +2088,7 @@ mourner.github.com/simplify-js
 				xlimits = xlimits.concat(stroke.x)
 				ylimits = ylimits.concat(stroke.y)
 			}
-			 
+
 			minx = Math.min.apply(null, xlimits) - padding
 			maxx = Math.max.apply(null, xlimits) + padding
 			miny = Math.min.apply(null, ylimits) - padding
@@ -2098,19 +2098,19 @@ mourner.github.com/simplify-js
 			sizex = maxx - minx
 			sizey = maxy - miny
 		}
-		
+
 		answer.push(
-			'<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="'+ 
+			'<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="'+
 			sizex.toString() +
-			'" height="'+ 
+			'" height="'+
 			sizey.toString() +
 			'">'
 		)
-		
+
 	//		// This is a nice idea: use style declaration on top, and mark the lines with 'class="f"'
-	//		// thus saving space in svg... 
+	//		// thus saving space in svg...
 	//		// alas, many SVG renderers don't understand "class" and render the strokes in default "fill = black, no stroke" style. Ugh!!!
-	//		// TODO: Rewrite ImageMagic / GraphicsMagic, InkScape, http://svg.codeplex.com/ to support style + class. until then, we hardcode the stroke style within the path. 
+	//		// TODO: Rewrite ImageMagic / GraphicsMagic, InkScape, http://svg.codeplex.com/ to support style + class. until then, we hardcode the stroke style within the path.
 	//		answer.push(
 	//			'<style type="text/css"><![CDATA[.f {fill:none;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}]]></style>'
 	//		)
@@ -2155,19 +2155,19 @@ http://phpjs.org/functions/base64_encode
 	        ac = 0,
 	        enc = "",
 	        tmp_arr = [];
-		 
+
 		    do { // pack three octets into four hexets
 		        o1 = data.charCodeAt(i++);
 		        o2 = data.charCodeAt(i++);
 		        o3 = data.charCodeAt(i++);
-		 
+
 		        bits = o1 << 16 | o2 << 8 | o3;
-		 
+
 		        h1 = bits >> 18 & 0x3f;
 		        h2 = bits >> 12 & 0x3f;
 		        h3 = bits >> 6 & 0x3f;
 		        h4 = bits & 0x3f;
-		 
+
 		        // use hexets to index into b64, and append result to encoded string
 		        tmp_arr[ac++] = b64a[h1] + b64a[h2] + b64a[h3] + b64a[h4];
 		    } while (i < data.length);
@@ -2189,7 +2189,7 @@ http://phpjs.org/functions/base64_encode
 	function getBase64encodedSVG(data, settings){
 
 		return [base64encodedmime , btoa( compressstrokes(data, settings) )];
-	} 
+	}
 
 	function Initializer($){
 		var mothership = $.fn['jSignature']
@@ -2225,7 +2225,7 @@ http://phpjs.org/functions/base64_encode
 })();
 
 // from file plugins/jSignature.UndoButton.js
- 
+
  /** @license
 jSignature v2 jSignature's Undo Button and undo functionality plugin
 
@@ -2275,10 +2275,10 @@ MIT License <http://www.opensource.org/licenses/mit-license.php>
 					}
 				}
 			)
-		})( 
+		})(
 			this
 			, $undoButton
-			, this.events.topics.hasOwnProperty( apinamespace + '.undo' ) ? 
+			, this.events.topics.hasOwnProperty( apinamespace + '.undo' ) ?
 				// oops, seems some other plugin or code has already claimed "jSignature.undo" event
 				// we will use this extension's name for event name prefix
 				extensionName :
@@ -2289,10 +2289,10 @@ MIT License <http://www.opensource.org/licenses/mit-license.php>
 
 	function ExtensionInitializer(extensionName){
 		// we are called very early in instance's life.
-		// right after the settings are resolved and 
-		// jSignatureInstance.events is created 
+		// right after the settings are resolved and
+		// jSignatureInstance.events is created
 		// and right before first ("jSignature.initializing") event is called.
-		// You don't really need to manupilate 
+		// You don't really need to manupilate
 		// jSignatureInstance directly, just attach
 		// a bunch of events to jSignatureInstance.events
 		// (look at the source of jSignatureClass to see when these fire)
@@ -2338,17 +2338,19 @@ MIT License <http://www.opensource.org/licenses/mit-license.php>
 						// this defines default look for the button:
 						// centered against canvas, hanging on its lower side.
 						oursettings = function(){
-							// this === jSignatureInstance 
+							// this === jSignatureInstance
 							var undoButtonSytle = 'position:absolute;display:none;margin:0 !important;top:auto';
-                                                        undoButtonSytle += '; width:32px; height:32px; background-position:center; background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABYElEQVRYR+3VzSpFYRTG8Z/CQJEBJjJSyAWYM2Xke2hu7ALMTeRjLiOlGLkBpchEKXEHJiQZilZt2nZ7ny/bOQZnzXZnvet9nv9a67wdWhwdLb5fW0CbwG8IDGEHK78Z5EYFrGIX/ehspoBwvY+F5NL3ZgoI1OF6IOW4KQKyrtPE/1zAMvYyrrMtf8MjHnCJM1zVOhdFQziY9Hqx1kKZvFts4rja+TwBtbiuVvfr91Os4aXoQJ6ApQR7UCgjbjCDp7xilVoQvQ8xZcQ5phFD+yOq/RGVSWMDW/UKiPxoRSUa3YhVnUxcxgyN5mB7xghia76jGoF0bhGNbI34nk3cjmeExEAeNCqgiEaRiR4cYj514RHiHWmIQBGNShTjoTrBXHL4HhNlCEjTiJ5Xil5cYwyv6CtLQD3rOYULfKCrFQLizm2sZ5/veragHsd5uYH+DsOtIpBroJkE2gLaBP4ngU+LCzAhIdk/3wAAAABJRU5ErkJggg==);'
-							, $undoButton = $('<input type="button" style="'+undoButtonSytle+'" />')
+                                                        undoButtonSytle += '; width:32px; height:32px;'
+							, $undoButton = $('<button class="btn btn-secondary">' +
+															'<i class="fa-solid fa-undo icon-4x pull-left icon-border"></i>' +
+															'</button>')
 								.appendTo(this.$controlbarLower)
 
 							return $undoButton
 						}
 					}
 
-					attachHandlers.call( 
+					attachHandlers.call(
 						this
 						, oursettings
 						, apinamespace
@@ -2370,5 +2372,5 @@ MIT License <http://www.opensource.org/licenses/mit-license.php>
 
 	ExtensionAttacher()
 })();
-         
+
 });

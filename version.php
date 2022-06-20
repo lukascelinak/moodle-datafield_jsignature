@@ -25,7 +25,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2021020600;        // The current plugin version (Date: YYYYMMDDXX)
+$plugin->version   = 2021020601;        // The current plugin version (Date: YYYYMMDDXX)
 $plugin->requires  = 2016051900;        // Requires this Moodle version
 $plugin->component = 'datafield_jsignature';  // Full name of the plugin (used for diagnostics)
 $plugin->release   = '1.1';

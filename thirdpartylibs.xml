@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <libraries>
     <library>
-        <location>amd/src/jquery.jsignature.js</location>
+        <location>amd/src/jqueryjsignature.js</location>
         <name>jquery.jsignature</name>
         <version>2</version>
         <license>MIT</license>
